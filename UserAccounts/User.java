@@ -6,7 +6,6 @@ public class User {
     private String paymentplan;
 
     public float balance;
-    public Boolean isAdmin;
 
     public User(String accountname, String accountnum, String paymentplan) {
         this.accountname = accountname;
