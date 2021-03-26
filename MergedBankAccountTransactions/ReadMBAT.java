@@ -1,11 +1,11 @@
-package MasterBankAccountFile;
+package MergedBankAccountTransactions;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class ReadMBA {
-    public File mba = new File("masterbankaccount.txt");
+public class ReadMBAT {
+    public File mba = new File("mergedbankaccounttransactions.txt");
     public void ReadMasterBankAccounts() {
         try {
             Scanner myReader = new Scanner(mba);
