@@ -1,13 +1,14 @@
 import MasterBankAccountFile.ReadMBA;
 import MergedBankAccountTransactions.ReadMBAT;
+import UserAccounts.User;
 
 public class Main {
     public static void main(String[] args) {
         ReadMBA mbaf = new ReadMBA();
         ReadMBAT mbatf = new ReadMBAT();
 
-        if (mbaf.RunReadMBA()) { // Read in master bank account file
-            if (mbatf.RunReadMBAT()) { // Read in merged bank account file
+        if (mbaf.runReadMBA()) { // Read in master bank account file
+            if (mbatf.runReadMBAT()) { // Read in merged bank account file
                 System.out.println("Complete");
             }
         }

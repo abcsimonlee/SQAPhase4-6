@@ -1,6 +1,6 @@
 package UserAccounts;
 
-public class User {
+public class User { // This class stores all the data relevant to a single user
     private String accountname;
     private String accountnum;
     private String paymentplan;
@@ -13,19 +13,19 @@ public class User {
         this.paymentplan = paymentplan;
     }
 
-    public String GetAccountName() {
+    public String getAccountName() {
         return accountname;
     }
 
-    public String GetAccountNum() {
+    public String getAccountNum() {
         return accountnum;
     }
 
-    public String GetPaymentPlan() {
+    public String getPaymentPlan() {
         return paymentplan;
     }
 
-    public void CalculateDailyCost() {
+    public void calculateDailyCost() {
         if (this.paymentplan == "NP") {
             balance += 0.10;
         }

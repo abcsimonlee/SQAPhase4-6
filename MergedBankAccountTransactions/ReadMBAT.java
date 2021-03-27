@@ -4,19 +4,20 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class ReadMBAT {
+//this class handles reading the necessary file names for the bank account transaction files
+public class ReadMBAT { 
     public File mbat;
 
-    public boolean RunReadMBAT() {
-        if (GetFileName()) {
-            if (ReadMasterBankAccounts()) {
+    public boolean runReadMBAT() {
+        if (getFileName()) {
+            if (readMasterBankAccounts()) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean GetFileName() {
+    public boolean getFileName() {
         Scanner scanner2 = new Scanner(System.in);
         System.out.println("Enter Merged Bank Account Transaction file name: ");
 
@@ -26,7 +27,7 @@ public class ReadMBAT {
         return true;
     }
 
-    public boolean ReadMasterBankAccounts() {
+    public boolean readMasterBankAccounts() {
         try {
             Scanner myReader = new Scanner(mbat);
             while (myReader.hasNextLine()) {
