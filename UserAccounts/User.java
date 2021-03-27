@@ -7,7 +7,7 @@ public class User { // This class stores all the data relevant to a single user
 
     public float balance;
 
-    public User(String accountname, String accountnum, String paymentplan) {
+    public User(String accountname, String accountnum, String paymentplan) { //stabdard constuctor
         this.accountname = accountname;
         this.accountnum = accountnum;
         this.paymentplan = paymentplan;
@@ -33,6 +33,11 @@ public class User { // This class stores all the data relevant to a single user
         else if (this.paymentplan == "SP") {
             balance += 0.05;
         }
+    }
+
+    //reads the MBA file and creates Users for each unique name the holds all their information inside the class instance.
+    public void createUsers(String MBA){
+
     }
 
     
