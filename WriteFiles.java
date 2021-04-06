@@ -2,6 +2,10 @@ import MasterBankAccountFile.ReadMBA;
 import MergedBankAccountTransactions.ReadMBAT;
 import UserAccounts.User;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 /*
 MBA = Master Bank Accounts File
 MBAT = Merged Bank Account Transactions File 
@@ -18,22 +22,33 @@ public class WriteFiles {
                     //may possibly be changed from a string
                     
     //this method will read the merged bank accounts transactions file and pass in each line to readTransaction
-    public void readMBAT (String fileName){
-
+    public void readMBAT(String fileName) {
+        File mbat = new File(fileName);
+        try {
+            Scanner myReader = new Scanner(mbat);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                // apply transactions and produce new master bank account file
+                readTransaction(data);
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("ERROR: FILE NOT FOUND");
+        }
     }
     //this method determines the transaction that is on the current line of the transactions file then edits
     //values of the respective account accordingly
-    public void readTransaction(String transactionCode){
-
+    public void readTransaction(String transactionCode) {
+        
     }
 
     //this method will make the new bank account code and write it to the new MBA
-    public void writeNewMBA(){
+    public void writeNewMBA() {
 
     }
     
     //this method creates the new current bank accounts file
-    public void writeCBA(){
+    public void writeCBA() {
 
     }
 }
