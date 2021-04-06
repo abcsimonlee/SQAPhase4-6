@@ -45,7 +45,7 @@ public class WriteFiles {
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
                 // apply transactions and produce new master bank account file
-                writeNewMBA(data);
+                //writeNewMBA(data);
             }
             myReader.close();
         } catch (FileNotFoundException e) {
@@ -59,6 +59,8 @@ public class WriteFiles {
         String balance = transactionCode.charAt(30) + "" + transactionCode.charAt(31) + "" + transactionCode.charAt(32) + "" + transactionCode.charAt(33) 
                 + "" + transactionCode.charAt(34) + "" + transactionCode.charAt(35) + "" + transactionCode.charAt(36) 
                 + "" + transactionCode.charAt(37);
+        String accountNum = transactionCode.charAt(24) + "" + transactionCode.charAt(25) + "" + transactionCode.charAt(26) + "" + transactionCode.charAt(27) + "" + transactionCode.charAt(28);
+        //System.out.println(accountNum);
         if (code == '8') {
             float fbalance = Float.parseFloat(balance);
             fbalance += 0.05;
@@ -75,10 +77,10 @@ public class WriteFiles {
             if (balance.length() == 7) {
                 balance = "0" + balance;
             }
-            
-            System.out.println(balance);
-            writeNewMBA(balance);
+            writeNewMBA(accountNum, balance);
+            //System.out.println(balance);
         }
+        
         /*
         else {
             float fbalance = Float.parseFloat(balance);
@@ -107,8 +109,50 @@ public class WriteFiles {
     }
 
     //this method will make the new bank account code and write it to the new MBA
-    public void writeNewMBA(String data) {
-       
+    public void writeNewMBA(String accountNum, String data) {
+        File mba = new File("masterbankaccount.txt");
+        try {
+            Scanner myReader = new Scanner(mba);
+            while (myReader.hasNextLine()) {
+                String account = myReader.nextLine();
+                String oldaccountNum = account.charAt(0) + "" + account.charAt(1) + ""
+                        + account.charAt(2) + "" + account.charAt(3) + ""
+                        + account.charAt(4);
+                String oldbalance = account.charAt(29) + "" + account.charAt(30) + "" + account.charAt(31) + ""
+                        + account.charAt(32) + "" + account.charAt(33) + "" + account.charAt(34) + ""
+                        + account.charAt(35) + "" + account.charAt(36);
+                //System.out.println(oldaccountNum + " " + accountNum);
+                if (oldaccountNum.equals(accountNum)) {
+                    float foldbalance = Float.parseFloat(oldbalance);
+                    float faddbalance = Float.parseFloat(data);
+                    float fnewbalance = foldbalance + faddbalance;
+                    String newbalance = String.valueOf(fnewbalance);
+                    if (newbalance.length() == 3) {
+                        newbalance = "0000" + newbalance + "0";
+                    }
+                    if (newbalance.length() == 4) {
+                        newbalance = "0000" + newbalance;
+                    }
+                    if (newbalance.length() == 5) {
+                        newbalance = "000" + newbalance;
+                    }
+                    if (newbalance.length() == 5) {
+                        newbalance = "00" + newbalance;
+                    }
+                    if (newbalance.length() == 6) {
+                        newbalance = "00" + newbalance;
+                    }
+                    //System.out.println(newbalance);
+                    //System.out.println(oldbalance + " " + data);
+                    account = account.replace(oldbalance, newbalance);
+                    System.out.println(account);
+                }
+                
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("ERROR: FILE NOT FOUND");
+        }
     }
     
     //this method creates the new current bank accounts file
