@@ -36,7 +36,6 @@ public class WriteFiles {
             Scanner myReader = new Scanner(mbat);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
-                // apply transactions and produce new master bank account file
                 readTransaction(data);
             }
             myReader.close();
@@ -68,7 +67,6 @@ public class WriteFiles {
                 + "" + transactionCode.charAt(34) + "" + transactionCode.charAt(35) + "" + transactionCode.charAt(36) 
                 + "" + transactionCode.charAt(37);
         String accountNum = transactionCode.charAt(24) + "" + transactionCode.charAt(25) + "" + transactionCode.charAt(26) + "" + transactionCode.charAt(27) + "" + transactionCode.charAt(28);
-        //System.out.println(accountNum);
         if (code == '8') {
             float fbalance = Float.parseFloat(balance);
             fbalance += 0.05;
@@ -86,7 +84,6 @@ public class WriteFiles {
                 balance = "0" + balance;
             }
             makeNewMBA(accountNum, balance);
-            //System.out.println(balance);
         }
         
         /*
@@ -129,7 +126,6 @@ public class WriteFiles {
                 String oldbalance = account.charAt(29) + "" + account.charAt(30) + "" + account.charAt(31) + ""
                         + account.charAt(32) + "" + account.charAt(33) + "" + account.charAt(34) + ""
                         + account.charAt(35) + "" + account.charAt(36);
-                //System.out.println(oldaccountNum + " " + accountNum);
                 if (oldaccountNum.equals(accountNum)) {
                     float foldbalance = Float.parseFloat(oldbalance);
                     float faddbalance = Float.parseFloat(data);
@@ -150,10 +146,7 @@ public class WriteFiles {
                     if (newbalance.length() == 6) {
                         newbalance = "00" + newbalance;
                     }
-                    //System.out.println(newbalance);
-                    //System.out.println(oldbalance + " " + data);
                     account = account.replace(oldbalance, newbalance);
-                    //System.out.println(account);
                     changedaccounts.add(account);
                 }
                 
@@ -166,22 +159,18 @@ public class WriteFiles {
 
     public void writeNewMBA() {
         for (int i = 0; i < normalaccounts.size(); i++) {
-            //System.out.println(normalaccounts.get(i));
             String oneaccountnum = normalaccounts.get(i).charAt(0) + "" + normalaccounts.get(i).charAt(1) + "" + normalaccounts
                     .get(i).charAt(2) + ""
                     + normalaccounts.get(i).charAt(3) + "" + normalaccounts.get(i).charAt(4);
             for (int j = 0; j < changedaccounts.size(); j++) {
-                //System.out.println(changedaccounts.get(j));
                 String twoaccountnum = changedaccounts.get(j).charAt(0) + "" + changedaccounts.get(j).charAt(1) + ""
                         + changedaccounts.get(j).charAt(2) + "" + changedaccounts.get(j).charAt(3) + ""
                         + changedaccounts.get(j).charAt(4);
                 if (twoaccountnum.equals(oneaccountnum)) {
-                    //System.out.println("True");
                     masteraccounts.add(changedaccounts.get(j));
                 }
             }
             masteraccounts.add(normalaccounts.get(i));
-            //System.out.println(oneaccountnum);
         }
 
         for (int l = 0; l < masteraccounts.size(); l++) {
