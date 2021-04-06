@@ -44,7 +44,7 @@ public class WriteFiles {
         }
     }
 
-    
+    // Reads in master bank account file, adds to arraylist of bank accounts    
     public void readMBA(String fileName) {
         File mba = new File(fileName);
         try {
@@ -63,11 +63,14 @@ public class WriteFiles {
     //values of the respective account accordingly
     public void readTransaction(String transactionCode) {
         char code = transactionCode.charAt(1);
+        // Determines the balance and account number of the account (based on transaction file)
         String balance = transactionCode.charAt(30) + "" + transactionCode.charAt(31) + "" + transactionCode.charAt(32) + "" + transactionCode.charAt(33) 
                 + "" + transactionCode.charAt(34) + "" + transactionCode.charAt(35) + "" + transactionCode.charAt(36) 
                 + "" + transactionCode.charAt(37);
         String accountNum = transactionCode.charAt(24) + "" + transactionCode.charAt(25) + "" + transactionCode.charAt(26) + "" + transactionCode.charAt(27) + "" + transactionCode.charAt(28);
+        // Checks whether the plan has been changed from non-student to student
         if (code == '8') {
+            // If plan is student, add 5 cents to balance
             float fbalance = Float.parseFloat(balance);
             fbalance += 0.05;
             balance = String.valueOf(fbalance);
@@ -83,6 +86,7 @@ public class WriteFiles {
             if (balance.length() == 7) {
                 balance = "0" + balance;
             }
+            // Pass information of accounts changed and what the new balance is in order to create a new master bank account file
             makeNewMBA(accountNum, balance);
         }
         
@@ -113,20 +117,23 @@ public class WriteFiles {
         }*/
     }
 
-    //this method will make the new bank account code and write it to the new MBA
+    //this method will make the new bank account code and add to the list of changed bank accounts
     public void makeNewMBA(String accountNum, String data) {
         File mba = new File("masterbankaccount.txt");
         try {
             Scanner myReader = new Scanner(mba);
             while (myReader.hasNextLine()) {
                 String account = myReader.nextLine();
+                // Determines the bank account number and balance
                 String oldaccountNum = account.charAt(0) + "" + account.charAt(1) + ""
                         + account.charAt(2) + "" + account.charAt(3) + ""
                         + account.charAt(4);
                 String oldbalance = account.charAt(29) + "" + account.charAt(30) + "" + account.charAt(31) + ""
                         + account.charAt(32) + "" + account.charAt(33) + "" + account.charAt(34) + ""
                         + account.charAt(35) + "" + account.charAt(36);
+                // Checks whether the account numbers match
                 if (oldaccountNum.equals(accountNum)) {
+                    // Changes the balance of the bank account if the account numbers do match
                     float foldbalance = Float.parseFloat(oldbalance);
                     float faddbalance = Float.parseFloat(data);
                     float fnewbalance = foldbalance + faddbalance;
@@ -147,6 +154,7 @@ public class WriteFiles {
                         newbalance = "00" + newbalance;
                     }
                     account = account.replace(oldbalance, newbalance);
+                    // Adds to the changedaccounts list
                     changedaccounts.add(account);
                 }
                 
@@ -157,7 +165,9 @@ public class WriteFiles {
         }
     }
 
+    // This method writes the new master bank account file which includes the bank accounts that were changed
     public void writeNewMBA() {
+        // Goes through both the normal accounts list and the changed accounts list, if account numbers match, add to master bank account list
         for (int i = 0; i < normalaccounts.size(); i++) {
             String oneaccountnum = normalaccounts.get(i).charAt(0) + "" + normalaccounts.get(i).charAt(1) + "" + normalaccounts
                     .get(i).charAt(2) + ""
@@ -172,7 +182,7 @@ public class WriteFiles {
             }
             masteraccounts.add(normalaccounts.get(i));
         }
-
+        // Go through master bank account list, look for duplicates, remove unchanged account line (so that only the changed balance of the account is kept)
         for (int l = 0; l < masteraccounts.size(); l++) {
             String onefinalaccountnum = masteraccounts.get(l).charAt(0) + "" + masteraccounts.get(l).charAt(1) + ""
                     + masteraccounts.get(l).charAt(2) + "" + masteraccounts.get(l).charAt(3) + ""
@@ -186,7 +196,7 @@ public class WriteFiles {
             }
             System.out.println(masteraccounts.get(l));
         }
-        
+        // Write to new master bank account file
         try {
             FileWriter myWriter = new FileWriter("newmasterbankaccount.txt");
             for (int i = 0; i < masteraccounts.size(); i++) {
