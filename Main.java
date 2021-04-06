@@ -15,6 +15,8 @@ public class Main {
         }*/
 
         wfile.readMBAT("mergedbankaccounttransactions.txt");
+        wfile.readMBA("masterbankaccount.txt");
+        wfile.writeNewMBA();
         // Produce new master bank accounts file
         // Produce new current bank accounts file
         // Calculate daily cost of transaction
