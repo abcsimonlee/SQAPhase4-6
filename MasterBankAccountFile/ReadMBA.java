@@ -33,7 +33,6 @@ public class ReadMBA {
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
                 // apply transactions and produce new master bank account file
-                System.out.println(data);
             }
             myReader.close();
             return true;
