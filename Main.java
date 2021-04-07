@@ -2,10 +2,11 @@ import MasterBankAccountFile.ReadMBA;
 import MergedBankAccountTransactions.ReadMBAT;
 import UserAccounts.User;
 
+import java.io.File;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        ReadMBA mbaf = new ReadMBA();
-        ReadMBAT mbatf = new ReadMBAT();
         WriteFiles wfile = new WriteFiles();
         /*
         if (mbaf.runReadMBA()) { // Read in master bank account file
@@ -13,9 +14,17 @@ public class Main {
                 System.out.println("Complete");
             }
         }*/
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter Merged Bank Account Transactions file name: ");
 
-        wfile.readMBAT("mergedbankaccounttransactions.txt");
-        wfile.readMBA("masterbankaccount.txt");
+        String filename1 = scanner.nextLine();
+        wfile.readMBAT(filename1);
+
+        Scanner scanner2 = new Scanner(System.in);
+        System.out.println("Enter Master Bank Accounts file name: ");
+
+        String filename2 = scanner2.nextLine();
+        wfile.readMBA(filename2);
         wfile.writeNewMBA();
         // Produce new master bank accounts file
         // Produce new current bank accounts file
