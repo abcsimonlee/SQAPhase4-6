@@ -64,60 +64,76 @@ public class WriteFiles {
     public void readTransaction(String transactionCode) {
         char code = transactionCode.charAt(1);
         // Determines the balance and account number of the account (based on transaction file)
-        String balance = transactionCode.charAt(30) + "" + transactionCode.charAt(31) + "" + transactionCode.charAt(32) + "" + transactionCode.charAt(33) 
+        String transactionAmount = transactionCode.charAt(30) + "" + transactionCode.charAt(31) + "" + transactionCode.charAt(32) + "" + transactionCode.charAt(33) 
                 + "" + transactionCode.charAt(34) + "" + transactionCode.charAt(35) + "" + transactionCode.charAt(36) 
                 + "" + transactionCode.charAt(37);
         String accountNum = transactionCode.charAt(24) + "" + transactionCode.charAt(25) + "" + transactionCode.charAt(26) + "" + transactionCode.charAt(27) + "" + transactionCode.charAt(28);
+        float ftransactionAmount = Float.parseFloat(transactionAmount);
+        
+        // Checks to see whether the code is for withdraw, transfer, or paybill. All of these subtract from account balance
+        // which makes the transaction amount negative
+        if (code == 1 || code == 2 || code == 3) {
+            ftransactionAmount = -ftransactionAmount;
+        }
+        
         // Checks whether the plan has been changed from non-student to student
-        if (code == '8') {
-            // If plan is student, add 5 cents to balance
-            float fbalance = Float.parseFloat(balance);
-            fbalance += 0.05;
-            balance = String.valueOf(fbalance);
-            if (balance.length() == 4) {
-                balance = "0000" + balance;
-            }
-            else if (balance.length() == 5) {
-                balance = "000" + balance;
-            }
-            else if (balance.length() == 6) {
-                balance = "00" + balance;
-            }
-            else if (balance.length() == 7) {
-                balance = "0" + balance;
-            } else {
-                balance = "" + balance;
-            }
+        else if (code == '8') {
+            // If plan is student, add 5 cents instead of 10 to balance
+            ftransactionAmount -= 0.05; //since 10 cents is added later subtract the amount            
             // Pass information of accounts changed and what the new balance is in order to create a new master bank account file
-            makeNewMBA(accountNum, balance);
+            //makeNewMBA(accountNum, balance);
         }
         
         else {
-            float fbalance = Float.parseFloat(balance);
-            //System.out.println(fbalance);
-            fbalance += 0.10;
-            balance = String.valueOf(fbalance);
-            //System.out.println(fbalance);
-            //System.out.println(balance.length());
-            if (balance.length() == 3) {
-                balance = "0000" + balance + "0";
-            }
-            if (balance.length() == 4) {
-                balance = "0000" + balance + "0";
-            }
-            if (balance.length() == 5) {
-                balance = "000" + balance;
-            }
-            if (balance.length() == 6) {
-                balance = "00" + balance;
-            }
-            if (balance.length() == 7) {
-                balance = "0" + balance + "0";
-            }
-            //System.out.println(balance);
-            //makeNewMBA(accountNum, balance);
+            System.out.println("Invalid Transaction Code");
+            // float fbalance = Float.parseFloat(balance);
+            // //System.out.println(fbalance);
+            // fbalance += 0.10;
+            // balance = String.valueOf(fbalance);
+            // //System.out.println(fbalance);
+            // //System.out.println(balance.length());
+            // if (balance.length() == 3) {
+            //     balance = "0000" + balance + "0";
+            // }
+            // if (balance.length() == 4) {
+            //     balance = "0000" + balance + "0";
+            // }
+            // if (balance.length() == 5) {
+            //     balance = "000" + balance;
+            // }
+            // if (balance.length() == 6) {
+            //     balance = "00" + balance;
+            // }
+            // if (balance.length() == 7) {
+            //     balance = "0" + balance + "0";
+            // }
+            // //System.out.println(balance);
+            // //makeNewMBA(accountNum, balance);
             
         }
+        ftransactionAmount += 0.10;
+        transactionAmount = String.valueOf(ftransactionAmount);
+        String balance = "";
+        for (int i = 0; i < 9 - transactionAmount.length(); i++) { //a more efficient way of doing code below
+            balance += "0";
+        }
+        balance += transactionAmount;
+        
+        /*if (balance.length() == 4) {
+            balance = "0000" + balance;
+        }
+        else if (balance.length() == 5) {
+            balance = "000" + balance;
+        }
+        else if (balance.length() == 6) {
+            balance = "00" + balance;
+        }
+        else if (balance.length() == 7) {
+            balance = "0" + balance;
+        } else {
+            balance = "" + balance;
+        }*/
+        makeNewMBA(accountNum, balance);
     }
 
     //this method will make the new bank account code and add to the list of changed bank accounts
@@ -140,8 +156,14 @@ public class WriteFiles {
                     float foldbalance = Float.parseFloat(oldbalance);
                     float faddbalance = Float.parseFloat(data);
                     float fnewbalance = foldbalance + faddbalance;
-                    String newbalance = String.valueOf(fnewbalance);
-                    if (newbalance.length() == 3) {
+                    String tempnewbalance = String.valueOf(fnewbalance);
+                    String newbalance = "";
+                    
+                    for (int i = 0; i < 7 - newbalance.length(); i++) { //a more efficient way of doing code below
+                        newbalance += "0";
+                    }
+                    newbalance += tempnewbalance;
+                    /*if (newbalance.length() == 3) {
                         newbalance = "0000" + newbalance + "0";
                     }
                     if (newbalance.length() == 4) {
@@ -155,7 +177,7 @@ public class WriteFiles {
                     }
                     if (newbalance.length() == 6) {
                         newbalance = "00" + newbalance;
-                    }
+                    }*/
                     account = account.replace(oldbalance, newbalance);
                     // Adds to the changedaccounts list
                     changedaccounts.add(account);
