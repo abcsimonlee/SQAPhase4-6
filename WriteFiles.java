@@ -77,26 +77,28 @@ public class WriteFiles {
             if (balance.length() == 4) {
                 balance = "0000" + balance;
             }
-            if (balance.length() == 5) {
+            else if (balance.length() == 5) {
                 balance = "000" + balance;
             }
-            if (balance.length() == 6) {
+            else if (balance.length() == 6) {
                 balance = "00" + balance;
             }
-            if (balance.length() == 7) {
+            else if (balance.length() == 7) {
                 balance = "0" + balance;
+            } else {
+                balance = "" + balance;
             }
             // Pass information of accounts changed and what the new balance is in order to create a new master bank account file
             makeNewMBA(accountNum, balance);
         }
         
-        /*
         else {
             float fbalance = Float.parseFloat(balance);
+            //System.out.println(fbalance);
             fbalance += 0.10;
             balance = String.valueOf(fbalance);
-            System.out.println(balance);
-            System.out.println(balance.length());
+            //System.out.println(fbalance);
+            //System.out.println(balance.length());
             if (balance.length() == 3) {
                 balance = "0000" + balance + "0";
             }
@@ -104,17 +106,18 @@ public class WriteFiles {
                 balance = "0000" + balance + "0";
             }
             if (balance.length() == 5) {
-                balance = "000" + balance + "0";
+                balance = "000" + balance;
             }
             if (balance.length() == 6) {
-                balance = "00" + balance + "0";
+                balance = "00" + balance;
             }
             if (balance.length() == 7) {
                 balance = "0" + balance + "0";
             }
-
             //System.out.println(balance);
-        }*/
+            //makeNewMBA(accountNum, balance);
+            
+        }
     }
 
     //this method will make the new bank account code and add to the list of changed bank accounts
@@ -190,11 +193,11 @@ public class WriteFiles {
             String twofinalaccountnum = masteraccounts.get(l + 1).charAt(0) + "" + masteraccounts.get(l + 1).charAt(1) + ""
                     + masteraccounts.get(l + 1).charAt(2) + "" + masteraccounts.get(l + 1).charAt(3) + ""
                     + masteraccounts.get(l + 1).charAt(4);
-
+            //System.out.println(masteraccounts.get(l));
             if (onefinalaccountnum.equals(twofinalaccountnum)) {
                 masteraccounts.remove(l+1);
             }
-            System.out.println(masteraccounts.get(l));
+            //System.out.println(masteraccounts.get(l));
         }
         // Write to new master bank account file
         try {
