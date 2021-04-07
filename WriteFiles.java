@@ -84,7 +84,7 @@ public class WriteFiles {
             //makeNewMBA(accountNum, balance);
         }
         
-        else {
+        /*else {
             System.out.println("Invalid Transaction Code");
             // float fbalance = Float.parseFloat(balance);
             // //System.out.println(fbalance);
@@ -110,7 +110,7 @@ public class WriteFiles {
             // //System.out.println(balance);
             // //makeNewMBA(accountNum, balance);
             
-        }
+        }*/
         ftransactionAmount += 0.10;
         transactionAmount = String.valueOf(ftransactionAmount);
         String balance = "";
@@ -158,7 +158,7 @@ public class WriteFiles {
                     float fnewbalance = foldbalance + faddbalance;
                     String tempnewbalance = String.valueOf(fnewbalance);
                     String newbalance = "";
-                    
+
                     for (int i = 0; i < 7 - newbalance.length(); i++) { //a more efficient way of doing code below
                         newbalance += "0";
                     }
